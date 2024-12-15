@@ -1,14 +1,14 @@
-# Time Complexity : O(n)
-# Space Complexity : O(1)
-class Solution(object):
-    def pivotIndex(self, nums):
-        # Initialize leftSum & rightSum to store the sum of all the numbers strictly to the index's left & right respectively...
-        leftSum, rightSum = 0, sum(nums)
-        # Traverse elements through the loop...
-        for idx, ele in enumerate(nums):
-            rightSum -= ele
-            # If the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right...
-            if leftSum == rightSum:
-                return idx      # Return the pivot index...
-            leftSum += ele
-        return -1       # If there is no index that satisfies the conditions in the problem statement...
+class Solution:
+    def findDifference(self, nums1: List[int], nums2: List[int]) -> List[List[int]]:
+        # Convert arrays to sets
+        h1 = set(nums1)
+        h2 = set(nums2)
+
+        # Remove common elements
+        for num in nums2:
+            if num in h1:
+                h1.remove(num)
+                h2.discard(num)
+
+        # Return the remaining unique elements
+        return [list(h1), list(h2)]
