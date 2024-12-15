@@ -1,12 +1,7 @@
 import pandas as pd
 
-def department_highest_salary(employee: pd.DataFrame, department: pd.DataFrame) -> pd.DataFrame:
-    #First, we merge the employee and department dataframes 
-    #using an inner join (default for merge)
-    merged_df = employee.merge(department, left_on = 'departmentId', right_on = 'id')
-
-    #Second, we rename the columns 
-    #and take only the department, employee, and salary columns
-    merged_df = merged_df.rename(columns = {'name_x': 'Employee', 'name_y': 'Department', 'salary': 'Salary'})[['Department', 'Employee', 'Salary']]
-    
-    return merged_df[merged_df['Salary'] == merged_df.groupby('Department')['Salary'].transform(max)]
+def department_highest_salary(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
+    df = pd.merge(left=df1,right=df2,left_on='departmentId',right_on='id',how='left')
+    bf = df.groupby('departmentId').max()
+    pf = pd.merge(left=df,right=bf,on=['salary','name_y'])
+    return pf[['name_y','name_x_x','salary']].rename(columns={'name_y':'Department','name_x_x':'Employee','salary':'Salary'})
